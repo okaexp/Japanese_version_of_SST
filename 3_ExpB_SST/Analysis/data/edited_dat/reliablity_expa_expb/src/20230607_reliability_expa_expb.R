@@ -29,20 +29,20 @@ dat_expa <- raw_dat_expa %>%
   dplyr::mutate(FR_A = FinalRating,
                 order_A = order,
                 answer_A = answer) %>%
-  dplyr::select(order_A, trial_index, cwid, task, word_pair, answer_A, FR_A)
+  dplyr::select(order_A, trial_index, ID, task, word_pair, answer_A, FR_A)
 
 dat_expb <- raw_dat_expb %>%
   dplyr::mutate(FR_B = FR,
                 order_B = order,
                 answer_B = answer) %>%
-  dplyr::select(order_B, trial_index, cwid, task, word_pair, answer_B, FR_B)
+  dplyr::select(order_B, trial_index, ID, task, word_pair, answer_B, FR_B)
 
 #expbにいるexpaのユーザだけを抽出する
 #length(unique(dat_expb$cwid))#80名→filter後は,77名しか抽出できなかった
 #length(unique(dat_expa$cwid))#100名
-target_cwids <- unique(dat_expb$cwid)
+target_ids <- unique(dat_expb$ID)
 dat_expa <- dat_expa %>%
-  dplyr::filter(cwid %in% target_cwids)
+  dplyr::filter(ID %in% target_ids)
 #length(unique(dat_expa$cwid))#100名
 
 #dat_expa/bを結合
@@ -72,7 +72,7 @@ irr::icc(dat_calc_reliablity_icc, model="twoway", type="agreement", unit="averag
 # 参加者ごとのSST得点を求めて、合計点を求めて、相関係数を算出する
 # -> r = .62で、まずまずか
 dat_expa_expb_part <- dat_expa_expb %>%
-  dplyr::group_by(cwid) %>%
+  dplyr::group_by(ID) %>%
   dplyr::summarise(FR_A_sum = sum(FR_A),
                    FR_B_sum = sum(FR_B))
 cor.test(dat_expa_expb_part$FR_A_sum, dat_expa_expb_part$FR_B_sum)

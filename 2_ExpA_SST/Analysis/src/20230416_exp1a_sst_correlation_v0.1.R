@@ -1,8 +1,8 @@
 #最終更新: 2023年6月22日 21:55
 
 # 解析方針 ----
-# 1. 解析用データの作成（dat_aggregate）：CrowdworksIDを行に持ち、ターゲットキー（後述）を列に持つ
-# 共通のキー: CrowdworksID(demographic), cwid(rpms, sst, vocab_and_tipij)
+# 1.
+# 共通のキー: ID(demographic), (rpms, sst, vocab_and_tipij)
 # dat_demographic:
 # - Sex
 # - Age
@@ -47,22 +47,22 @@ dat_vacob_and_tipij <- read.xlsx("../edited_dat/20230313_dat_target_vocab_to_fin
 # - Age
 # - AcademicDegree
 dat_demographic_for_agg <- dat_demographic %>%
-  dplyr::select(CrowdworksID, Sex, Age, AcademicDegree)
+  dplyr::select(ID, Sex, Age, AcademicDegree)
 
 # dat_sst:survey_text(trial_type)のFinalRatingの合計点を求める 
 # - SumSSTFinalRating(df)
 dat_sst_for_agg <- dat_sst %>%
   dplyr::filter(trial_type == "survey-text") %>% 
-  dplyr::mutate(CrowdworksID = cwid) %>%
-  dplyr::group_by(CrowdworksID) %>%
+  dplyr::mutate(ID = ID) %>%
+  dplyr::group_by(ID) %>%
   dplyr::summarise(SumSSTFinalRating = sum(FinalRating))
 
 # dat_rpms: survey_likert(trial_type)のCrrectの合計点を求める
 # - SumRPMSCorrect(df)
 dat_rpms_for_agg <- dat_rpms %>% 
   dplyr::filter(trial_type == "survey-likert") %>%
-  dplyr::mutate(CrowdworksID = cwid) %>% 
-  dplyr::group_by(CrowdworksID) %>%
+  dplyr::mutate(ID = ID) %>% 
+  dplyr::group_by(ID) %>%
   dplyr::summarise(SumRPSMCorrect = sum(Correct))
 
 # dat_vpcab_and_tipij
@@ -76,8 +76,8 @@ dat_rpms_for_agg <- dat_rpms %>%
 # - Neuroticism_Agg
 # - Openess_Agg
 dat_vocab_and_tipij_for_agg <- dat_vacob_and_tipij %>%
-  dplyr::mutate(CrowdworksID = cwid) %>% 
-  dplyr::select(CrowdworksID, Vocab_Check_All, Vocab_Check_P1, Vocab_Check_P2, Vocab_Check_P3,
+  dplyr::mutate(ID = ID) %>% 
+  dplyr::select(ID, Vocab_Check_All, Vocab_Check_P1, Vocab_Check_P2, Vocab_Check_P3,
                 Extraversion_Agg, Agreeableness_Agg, Conscientious_Agg, Neuroticism_Agg, Openess_Agg)
 
 # 解析用データの作成（dat_aggregate）
@@ -88,7 +88,7 @@ dat_aggregate <- dat_demographic_for_agg %>%
 
 # 2. 相関分析----
 source("http://aoki2.si.gunma-u.ac.jp/R/src/mycor.R", encoding="euc-jp") #mycorを持ってくる
-dat_aggregate_cor <- dplyr::select(dat_aggregate, -CrowdworksID) %>%
+dat_aggregate_cor <- dat_aggregate %>%
   dplyr::mutate(Education = AcademicDegree) %>%
   dplyr::select(-AcademicDegree) %>%
   dplyr::select(SumSSTFinalRating, SumRPSMCorrect, Vocab_Check_All, Vocab_Check_P1,
@@ -97,17 +97,10 @@ dat_aggregate_cor <- dplyr::select(dat_aggregate, -CrowdworksID) %>%
 
 mycor(1:11, dat_aggregate_cor, latex = FALSE) #いつもの#相関係数ようのデータ
 
-# 3. 相関表とヒストグラムの可視化 ----
-dat_aggregate_panels <- dplyr::select(dat_aggregate_cor, -Sex, -Age, -Education,
-                                      -Extraversion_Agg, -Agreeableness_Agg, -Conscientious_Agg, -Neuroticism_Agg, -Openess_Agg)
-psych::pairs.panels(dat_aggregate_panels)
-
 # 4. 記述統計量と必要な相関分析 ----
 
 #記述統計量
-dat_aggregate_desc_and_cor <- dat_aggregate_cor %>% 
-  dplyr::select(-Vocab_Check_P2, -Vocab_Check_P3)
-describe(dat_aggregate_desc_and_cor)
+describe(dat_aggregate_cor)
 
 #相関係数
 mycor(2:length(dat_aggregate_desc_and_cor), dat_aggregate_desc_and_cor, latex = FALSE) #相関係数ようのデータ
@@ -137,7 +130,7 @@ dat_aggregate_remove_outlier_vocab <- dat_aggregate %>%
   #dplyr::filter(Vocab_Check_P1 < vocab_one_plus_three_sd, Vocab_Check_P1 > vocab_one_minus_three_sd)
 
 source("http://aoki2.si.gunma-u.ac.jp/R/src/mycor.R", encoding="euc-jp") #mycorを持ってくる
-dat_aggregate_cor_remove_outlier <- dplyr::select(dat_aggregate_remove_outlier_vocab, -CrowdworksID) %>%
+dat_aggregate_cor_remove_outlier <- dplyr::select(dat_aggregate_remove_outlier_vocab, -ID) %>%
   dplyr::mutate(Education = AcademicDegree) %>%
   dplyr::select(-AcademicDegree) %>%
   dplyr::select(SumSSTFinalRating, SumRPSMCorrect, Vocab_Check_All, Vocab_Check_P1,

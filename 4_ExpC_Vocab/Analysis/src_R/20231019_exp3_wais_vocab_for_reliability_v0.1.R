@@ -24,15 +24,15 @@ dat_common_cwid <- read.csv("../data/edited_dat/20231019_dat_aggregate_73.csv")
 # ターゲットキーのみを集計したデータフレーム(dat_aggregate)を作る ----
 # クラウドワークスIDがすべてのファイルで共通している73名分のデータのID用
 dat_common_cwid_agg <- dat_common_cwid %>%
-  dplyr::mutate(CrowdworksID = as.factor(CrowdworksID)) %>%
-  dplyr::select(CrowdworksID)
+  dplyr::mutate(ID = as.factor(ID)) %>%
+  dplyr::select(ID)
 
 # dat_sst:survey_text(trial_type)のFinalRatingの合計点を求める 
 # - SumSSTFinalRating(df)
 dat_sst_for_agg <- dat_sst %>%
   dplyr::filter(trial_type == "survey-text") %>% 
-  dplyr::mutate(CrowdworksID = as.factor(cwid)) %>%
-  dplyr::group_by(CrowdworksID) %>%
+  dplyr::mutate(ID = as.factor(ID)) %>%
+  dplyr::group_by(ID) %>%
   dplyr::summarise(SumSSTFinalRating = sum(FinalRating))
 
 # dat_wais_vocab
@@ -40,8 +40,8 @@ dat_sst_for_agg <- dat_sst %>%
 #オリジナルの分布用（回答）
 dat_wais_vocab_agg_answer <- dat_wais_vocab %>%
   dplyr::filter(trial_type == "survey-multi-choice") %>%
-  dplyr::mutate(CrowdworksID = as.factor(cwid)) %>% 
-  dplyr::group_by(CrowdworksID) %>% 
+  dplyr::mutate(ID = as.factor(ID)) %>% 
+  dplyr::group_by(ID) %>% 
   dplyr::summarise(SumWAISVocabScore = sum(Score),
                    Stim = stim,
                    Answer = answer) %>%
@@ -50,8 +50,8 @@ dat_wais_vocab_agg_answer <- dat_wais_vocab %>%
 #オリジナルの分布用（得点）
 dat_wais_vocab_agg_score <-dat_wais_vocab %>%
   dplyr::filter(trial_type == "survey-multi-choice") %>%
-  dplyr::mutate(CrowdworksID = as.factor(cwid)) %>% 
-  dplyr::group_by(CrowdworksID) %>% 
+  dplyr::mutate(ID = as.factor(ID)) %>% 
+  dplyr::group_by(ID) %>% 
   dplyr::summarise(SumWAISVocabScore = sum(Score),
                    Stim = paste(stim,"_s"),
                    Score = Score) %>%

@@ -1,4 +1,4 @@
-success,trial_type,trial_index,time_elapsed,internal_node_id,cwid,StartTime,EndTime,rt,stimulus,response,task,question_order,stim,answer,Score
+success,trial_type,trial_index,time_elapsed,internal_node_id,ID,StartTime,EndTime,rt,stimulus,response,task,question_order,stim,answer,Score
 1,fullscreen,0,2711,0.0-0.0,1039845,2023/10/18 13:59,2023/10/18 14:02,,,,,,,,0
 ,html-keyboard-response,1,10450,0.0-1.0,1039845,2023/10/18 13:59,2023/10/18 14:02,7735,<p style='text-algin:left'>これから、20個の単語についてその意味をおききします。</p><p style='text-algin:left'>語の意味を表すものとして、<u>最も適切なもの</u>をひとつ選択してください。</p><p><br><br></br><p style='text-algin:left'>準備ができたらスペーキーを押して、課題をはじめてください。</p>, ,vocab_instruction,,,,0
 ,survey-multi-choice,2,17846,0.0-2.0-0.0,1039845,2023/10/18 13:59,2023/10/18 14:02,7395,,Array,vocab_task,Array,,,0

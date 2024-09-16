@@ -1,4 +1,4 @@
-"CrowdworksID","Sex","Age","AcademicDegree","SumSSTFinalRating","SumRPSMCorrect","Vocab_Check_All","Vocab_Check_P1","Vocab_Check_P2","Vocab_Check_P3","Extraversion_Agg","Agreeableness_Agg","Conscientious_Agg","Neuroticism_Agg","Openess_Agg","SumWAISVocabScore","Extraversion","Conscientiousness","Neuroticism","Openness","Agreeableness"
+"ID","Sex","Age","AcademicDegree","SumSSTFinalRating","SumRPSMCorrect","Vocab_Check_All","Vocab_Check_P1","Vocab_Check_P2","Vocab_Check_P3","Extraversion_Agg","Agreeableness_Agg","Conscientious_Agg","Neuroticism_Agg","Openess_Agg","SumWAISVocabScore","Extraversion","Conscientiousness","Neuroticism","Openness","Agreeableness"
 "963459",1,37,2,30,10,89614,97673,89314,84155,2,5,3,3.5,2.5,23,2.2,3.57142857142857,2.8,3,4
 "2141268",1,47,4,28,9,87196,84843,89314,87532,3,5,2,6.5,3,34,3.6,3.28571428571429,6,2.83333333333333,4.33333333333333
 "4409144",2,35,3,30,4,46183,52104,46458,40918,4,3,2,6,2.5,29,1.8,2.28571428571429,6.2,1.5,1.83333333333333
